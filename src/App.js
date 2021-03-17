@@ -9,11 +9,13 @@ import axios from 'axios';
 function App() {
   const [apiData, setAPIData] = useState([{size: null, order: null}]);
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
-  const [startDate, setStart] = useState("2000");
-  const [finishDate, setFinish] = useState("2005");
+  const [warning, setWarning] = useState([""])
+  const [search, setSearch] = useState("Lung Cancer");
+  const [startDate, setStart] = useState("1980");
+  const [finishDate, setFinish] = useState("2021");
 
   const svgRef = useRef();
+
   const graphWidth = 0.8 * Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
   const graphHeight = 0.7 * Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
 
@@ -110,21 +112,31 @@ function App() {
   //used to validate user inputs
   const validateInputs = () => {
     //Prevents empty field
-    if (!search || !startDate || !finishDate) 
+    if (!search || !startDate || !finishDate) {
+      setWarning("Please fill all input fields");
       return false;
+    } 
+      
 
     //Prevents non-numbers being used as start or finish year
-    if(isNaN(parseInt(startDate,10)) || isNaN(parseInt(finishDate,10)))
+    if(isNaN(parseInt(startDate,10)) || isNaN(parseInt(finishDate,10))){
+      setWarning("Please enter a number as Start Year and/or Finish Year");
       return false;
+    } 
 
     //Prevents start being higher than finish year
-    if(parseInt(startDate,10) >= parseInt(finishDate,10))
+    if(parseInt(startDate,10) >= parseInt(finishDate,10)){
+      setWarning("Please ensure Finish Year is after Start Year");
       return false;
+    } 
 
     //Prevents invalid year from being added
-    if( 0 > parseInt(startDate,10) || parseInt(startDate,10) > 2021 ||  parseInt(finishDate,10) > 2021)
+    if( 0 > parseInt(startDate,10) || parseInt(startDate,10) > 2021 ||  parseInt(finishDate,10) > 2021) {
+      setWarning("Please enter an year between 0AD-2021AD");
       return false;
-    
+    } 
+
+    setWarning("");
     return true;
   }
   
@@ -141,6 +153,7 @@ function App() {
         <h1>Disease Research Trends</h1>
       </div>
       <div className='repo-container'>
+        <p style={{color:"red"}} >{warning}</p>
         <form style={{margin:"10px 0"}} onSubmit={handleSubmit}>
           <input
             type="text"
