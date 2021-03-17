@@ -154,7 +154,6 @@ function App() {
           <span style={{marginRight:"10px"}}>X-axis: Publication Year</span>
           <span style={{marginRight:"10px"}}>Y-axis: Number of Papers</span>
         </p>
-        <p style={{color:"red"}} >{warning}</p>
         <form style={{margin:"10px 0"}} onSubmit={handleSubmit}>
           <input
             type="text"
@@ -176,6 +175,7 @@ function App() {
           />
           <button>Search</button>
         </form>
+        <p style={{color:"red"}}>{warning}</p>
       </div>
       <div>
         <svg style={{backgroundColor:"white"}} viewBox={`0 0 ${graphHeight*2.1} ${graphWidth/2.03}`} ref={svgRef}>
