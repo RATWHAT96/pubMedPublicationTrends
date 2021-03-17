@@ -31,8 +31,8 @@ function App() {
       .range([graphHeight, 0]);
 
     const colorScale = scaleLinear()
-      .domain([75, 100, 150])
-      .range(["green", "orange", "red"])
+      .domain([(Math.round(Math.max(...graphData)* (1/3))), (Math.round(Math.max(...graphData)* (2/3))), (Math.round(Math.max(...graphData)))])
+      .range(["green", "yellow", "red"])
       .clamp(true);
 
     const xAxis = axisBottom(xScale).ticks(graphData.length);
@@ -147,6 +147,13 @@ function App() {
         <h1>Disease Research Trends</h1>
       </div>
       <div>
+        <p>
+          <span style={{color:"green", marginRight:"10px"}}>Lower 33%</span>
+          <span style={{color:"yellow", marginRight:"10px"}}>Middle 33%</span>
+          <span style={{color:"red", marginRight:"10px"}}>Higher 33%</span>
+          <span style={{marginRight:"10px"}}>X-axis: Publication Year</span>
+          <span style={{marginRight:"10px"}}>Y-axis: Number of Papers</span>
+        </p>
         <p style={{color:"red"}} >{warning}</p>
         <form style={{margin:"10px 0"}} onSubmit={handleSubmit}>
           <input
