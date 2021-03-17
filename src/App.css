@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+svg {
+  background: #eee;
+  overflow: visible;
+  margin-bottom: 2rem;
+  display: block;
+  margin-top: 5vh;
+  margin-left: 10vw;
+}
