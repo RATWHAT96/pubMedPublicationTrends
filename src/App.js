@@ -4,7 +4,6 @@ import './App.css';
 import { select, axisBottom, axisLeft, scaleLinear, scaleBand } from "d3";
 import { createUrl, validateInputs, formatStringInput, createGraphDataArray } from './functions/functions';
 
-
 function App() {
   const [apiData, setAPIData] = useState([{size: null, order: null}]);
   const [graphData, setData] = useState([]);
