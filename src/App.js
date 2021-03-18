@@ -9,9 +9,9 @@ function App() {
   const [apiData, setAPIData] = useState([{size: null, order: null}]);
   const [graphData, setData] = useState([]);
   const [warning, setWarning] = useState([""])
-  const [search, setSearch] = useState("Lung Cancer");
-  const [startDate, setStart] = useState("1980");
-  const [finishDate, setFinish] = useState("2021");
+  const [search, setSearch] = useState("");
+  const [startDate, setStart] = useState("");
+  const [finishDate, setFinish] = useState("");
 
   const svgRef = useRef();
 
@@ -147,13 +147,6 @@ function App() {
         <h1>Disease Research Trends</h1>
       </div>
       <div>
-        <p>
-          <span style={{color:"green", marginRight:"10px"}}>Lower 33%</span>
-          <span style={{color:"yellow", marginRight:"10px"}}>Middle 33%</span>
-          <span style={{color:"red", marginRight:"10px"}}>Higher 33%</span>
-          <span style={{marginRight:"10px"}}>X-axis: Publication Year</span>
-          <span style={{marginRight:"10px"}}>Y-axis: Number of Papers</span>
-        </p>
         <form style={{margin:"10px 0"}} onSubmit={handleSubmit}>
           <input
             type="text"
@@ -183,6 +176,13 @@ function App() {
           <g className="y-axis" />
         </svg>
       </div>
+      <p>
+          <span style={{color:"green", marginRight:"10px"}}>Bottom 33%</span>
+          <span style={{color:"yellow", marginRight:"10px"}}>Middle 33%</span>
+          <span style={{color:"red", marginRight:"10px"}}>Top 33%</span>
+          <span style={{marginRight:"10px"}}>X-axis: Publication Year</span>
+          <span style={{marginRight:"10px"}}>Y-axis: Number of Papers</span>
+        </p>
     </div>
   );
 }
