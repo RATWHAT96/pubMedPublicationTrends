@@ -84,7 +84,13 @@ function App() {
       let apiUrl = createUrl(start,nextDate,"pubmed", formattedInput);
       setTimeout(() => {
         fetch(apiUrl)
-          .then((response) => response.json())
+          .then((response) => {
+            if (response.status >= 200 && response.status <= 299) {
+              return response.json();
+            } else {
+              throw Error(response.statusText);
+            }
+          })
           .then((rData) => {
             papersAndYears = [...papersAndYears, {size:parseInt(rData.esearchresult.count), order:i}];
             numOfPapers = [...(createGraphDataArray(papersAndYears))];
