@@ -2,7 +2,7 @@
 import React, {useRef, useEffect, useState } from 'react';
 import './App.css';
 import { select, axisBottom, axisLeft, scaleLinear, scaleBand } from "d3";
-
+import { createUrl, validateInputs, formatStringInput, createGraphDataArray } from './functions/functions';
 
 
 function App() {
@@ -67,20 +67,17 @@ function App() {
   const handleSubmit = e => {
     e.preventDefault();
     
-    if(validateInputs() === false)
-      return;
-
-    //cleaning and formatting input string
-    let formattedInput = search.trim().replace(' ', '+');
-
-    //create range of years for x-axis
-    const yearRange= finishDate-startDate;
-
+    //Checking for valid inputs
+    let validityCheck = validateInputs(startDate, finishDate, search);
+    validityCheck !== "valid" ? setWarning(validityCheck) : setWarning("");
+    if (validityCheck !== "valid") return; 
     
-    let start = parseInt(startDate, 10); 
-    let numOfPapers = []
-    let papersAndYears = []
-
+    let formattedInput = formatStringInput(search);
+    let start = parseInt(startDate.trim(), 10); 
+    let numOfPapers = [];
+    let papersAndYears = [];
+    const yearRange = parseInt(finishDate.trim(), 10) - parseInt(startDate.trim(), 10);
+    
     //fetching the graphValues
     for (let i = 0; i <= yearRange; i++) {
       let nextDate = start + 1;
@@ -90,7 +87,7 @@ function App() {
           .then((response) => response.json())
           .then((rData) => {
             papersAndYears = [...papersAndYears, {size:parseInt(rData.esearchresult.count), order:i}];
-            numOfPapers = [...(arrange(papersAndYears))];
+            numOfPapers = [...(createGraphDataArray(papersAndYears))];
             setAPIData(papersAndYears)
             setData(numOfPapers)
           });
@@ -99,48 +96,6 @@ function App() {
     }
   };
   
-  //function to sort papersAndYears array & create/return the numOfPapers array
-  const arrange = (arr) => {
-    arr.sort(function(a, b){return a.order-b.order});
-    let dataArr = arr.map(x => x.size);
-    return dataArr
-  }
-
-  //used to validate user inputs
-  const validateInputs = () => {
-    //Prevents empty field
-    if (!search || !startDate || !finishDate) {
-      setWarning("Please fill all input fields");
-      return false;
-    } 
-      
-    //Prevents non-numbers being used as start or finish year
-    if(isNaN(parseInt(startDate,10)) || isNaN(parseInt(finishDate,10))){
-      setWarning("Please enter a number as Start Year and/or Finish Year");
-      return false;
-    } 
-
-    //Prevents start being higher than finish year
-    if(parseInt(startDate,10) >= parseInt(finishDate,10)){
-      setWarning("Please ensure Finish Year is after Start Year");
-      return false;
-    } 
-
-    //Prevents invalid year from being added
-    if( 0 > parseInt(startDate,10) || parseInt(startDate,10) > 2021 ||  parseInt(finishDate,10) > 2021) {
-      setWarning("Please enter an year between 0AD-2021AD");
-      return false;
-    } 
-
-    setWarning("");
-    return true;
-  }
-  
-  //used to create url endpoint for single date range
-  const createUrl = (start, finish, db, searchInput) => {
-    return `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=${db}&api_key=074b15a6d484c46e428f79dab8bb9cd89609&term=${searchInput}&mindate=${start}&maxdate=${finish}&datetype=pdat&retmode=json&retmax=0&rettype=count`;
-  }
-
   return (
     <div className='App'>
       <div className='container'>
