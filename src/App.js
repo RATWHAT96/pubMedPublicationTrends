@@ -78,7 +78,7 @@ function App() {
     let papersAndYears = [];
     const yearRange = parseInt(finishDate.trim(), 10) - parseInt(startDate.trim(), 10);
     
-    //fetching the graphValues
+    //fetches the graphValues for each year and stores it in the graphData array
     for (let i = 0; i <= yearRange; i++) {
       let nextDate = start + 1;
       let apiUrl = createUrl(start,nextDate,"pubmed", formattedInput);
@@ -92,8 +92,8 @@ function App() {
             }
           })
           .then((rData) => {
-            papersAndYears = [...papersAndYears, {size:parseInt(rData.esearchresult.count), order:i}];
-            numOfPapers = [...(createGraphDataArray(papersAndYears))];
+            papersAndYears = [...papersAndYears, {size:parseInt(rData.esearchresult.count), order:i}]; //array to store order and publication numbers from api responses
+            numOfPapers = [...(createGraphDataArray(papersAndYears))]; //array to store publication numbers in order
             setAPIData(papersAndYears)
             setData(numOfPapers)
           });
