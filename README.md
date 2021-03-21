@@ -1,5 +1,6 @@
 ## Future Tasks
 -	Add label axes 
+-       Add response timeout handling
 -	Create function to find yaxis max
 -	Graphs greater than 40 x-axis ticks need resizing
 -	Protect against SQL injections
