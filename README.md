@@ -2,6 +2,7 @@
 -	Add label axes 
 - Add response timeout handling
 -	Create function to find yaxis max
+-	Fix graph responsiveness
 -	Graphs greater than 40 x-axis ticks need resizing
 -	Protect against SQL injections
 -	Disable search button for until graph rendered
